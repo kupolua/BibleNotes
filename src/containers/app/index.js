@@ -30,24 +30,14 @@ class App extends React.Component{
   }
 
   render() {
-    if(!this.state) {return <div>{errorMessage}</div>}
+    if(!this.state) {return <div style={{
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+      width: '100%', height: window.innerHeight,
+      fontSize: 18, color: 'red',
+    }}>{errorMessage}</div>}
 
     return (
       <div>
-        <div style={{
-          display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'space-between',
-          height: 100, marginTop: 20,
-        }}>
-          <div style={{
-            display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-start',
-            height: 100, width: '50%',
-          }}>
-            <Link to="/" style={{width: 80, height: 40, paddingTop: 9, paddingLeft: 18, border: '1px solid green', borderRadius: 5}} >Home</Link>
-
-          </div>
-
-        </div>
-
         <div>{this.state.readingPlan.title}</div>
         {this.state.verses.map((chapter) => {
           return (
