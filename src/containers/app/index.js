@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { fetchVersesAction } from '../Bible/fetchVersesAction'; //todo: for develop mode -dev
+import NotesMenu from '../Menu';
 
 let search = window.location.search;
 let numDay;
@@ -10,14 +11,14 @@ let numDay;
 let errorMessage = 'Add number day of year: /?numDay=3';
 
 search.replace(/\?/, '').split('&').map((param) => {
-  if(param.search('numDay') != -1) {
+  if(param.search('numDay') !== -1) {
     numDay = param.replace(/numDay=/, '')
   }
 });
 
 class App extends React.Component{
   constructor(props) {
-    super(props)
+    super(props);
 
     if(numDay) {
       errorMessage = 'Loading...';
@@ -38,12 +39,13 @@ class App extends React.Component{
 
     return (
       <div>
+        <NotesMenu />
         <div>{this.state.readingPlan.title}</div>
         {this.state.verses.map((chapter) => {
           return (
-            <div  key={"chapterContainer" + chapter[0]} style={{marginLeft: 30}}>
-              <div>Глава: {chapter[0]}</div>
-              <div>{
+            <div  key={"chapterContainer" + chapter[1]} style={{marginLeft: 30}}>
+              <div key={"chapter" + chapter[0]}>Глава: {chapter[0]}</div>
+              <div key={"verseMainContainer" + chapter[0]}>{
                 Object.keys(chapter).map((verseId) => {
                   if(verseId === '0') {return}
                   return (
