@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "homepage": "https://create-react-app-redux.now.sh",
+  "scripts": {
+    "deploy": "npm run build && rm build/static/js/*.map && rm build/static/css/*.map && aws s3 cp build/ s3://bible-notes/ --recursive",
+    "start": "react-scripts start",
+    "now-start": "serve -s ./build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "precommit": "pretty-quick --staged"
+  },
+  "devDependencies": {
+    "react-scripts": "1.1.5",
+    "semantic-ui-css": "^2.4.0",
+    "semantic-ui-react": "^0.82.5"
+  },
+  "dependencies": {
+    "aws-amplify": "^1.1.18",
+    "aws-amplify-react": "^2.2.5",
+    "axios": "^0.18.0",
+    "connected-react-router": "4.4.1",
+    "react": "16.5.2",
+    "react-dom": "16.5.2",
+    "react-redux": "5.0.7",
+    "react-router": "4.3.1",
+    "react-router-dom": "4.3.1",
+    "redux": "4.0.0",
+    "redux-thunk": "2.3.0"
+  }
+}

@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 // import { Link } from 'react-router-dom';
 import { fetchVersesAction } from '../Bible/fetchVersesAction'; //todo: for develop mode -dev
 import NotesMenu from '../Menu';
+import VersesList from '../Bible';
+import Notes from '../Notes';
 
 let search = window.location.search;
 let numDay;
@@ -40,30 +42,8 @@ class App extends React.Component{
     return (
       <div>
         <NotesMenu />
-        <div>{this.state.readingPlan.title}</div>
-        {this.state.verses.map((chapter) => {
-          return (
-            <div  key={"chapterContainer" + chapter[1]} style={{marginLeft: 30}}>
-              <div key={"chapter" + chapter[0]}>Глава: {chapter[0]}</div>
-              <div key={"verseMainContainer" + chapter[0]}>{
-                Object.keys(chapter).map((verseId) => {
-                  if(verseId === '0') {return}
-                  return (
-                    <div
-                      key={'verseContainer' + verseId}
-                      style={{
-                        display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start',
-                        marginTop: 5
-                      }}>
-                      <div key={'verseId' + verseId} style={{width: 40, marginRight: 10}}>{verseId}</div>
-                      <div key={'verse' + verseId}>{chapter[verseId]}</div>
-                    </div>
-                  )
-                })
-              }</div>
-            </div>
-          )
-        })}
+        {this.state.isLogin ? <Notes /> : <VersesList />}
+
       </div>
     )
   }
