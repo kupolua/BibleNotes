@@ -1,10 +1,13 @@
 import { FETCH_VERSES } from '../containers/Bible/fetchVersesAction';
+import { TO_LOGIN } from '../containers/Menu/toLoginAction';
+
 
 const initialState = {
   numDay: null,
   notesList: {},
   readingPlan: {},
-  verses: []
+  verses: [],
+  isLogin: false,
 };
 
 export default (state = initialState, action) => {
@@ -14,7 +17,12 @@ export default (state = initialState, action) => {
       state.readingPlan = action.payload.readingPlan;
       state.verses = action.payload.verses;
 
-      return { ...state }
+      return { ...state };
+
+    case TO_LOGIN:
+      state.isLogin = action.payload;
+
+      return { ...state };
 
     default:
       return state
