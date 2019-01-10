@@ -1,7 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
 import VersesList from '../Bible';
+import WeekNotes from "./WeekNotes";
+import {toLoginAction} from "../Menu/toLoginAction";
+import {setMenuItemAction} from "../Menu/setMenuItemAction";
 
 Auth.configure({
   Auth: {
@@ -31,19 +36,34 @@ Auth.configure({
 
 class Notes extends React.Component{
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state ={
+      ...this.props.notesReducer
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      ...nextProps.notesReducer
+    })
   }
 
   render() {
     return (
       <div>
-        WeekNotesList component
-        <VersesList />
+        {this.state.menuItemName === "isNote" ? <WeekNotes/> : <VersesList />}
       </div>
     )
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    notesReducer: state.notesReducer,
+  };
+}
+
 // export default App;
-export default withAuthenticator(Notes);
+export default connect(mapStateToProps)(withAuthenticator(Notes));
 // export default connect(mapStateToProps, mapDispatchToProps)(process.env.REACT_APP_MODE === 'autologin' ? App : withAuthenticator(App));
