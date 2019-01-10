@@ -17,16 +17,34 @@ class NotesMenu extends React.Component{
         };
 
         this.onLogin = this.onLogin.bind(this);
+        this.onNotes = this.onNotes.bind(this);
+        this.onReader = this.onReader.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            ...nextProps.notesReducer
+        })
     }
 
     onLogin() {
         this.props.toLoginAction(true);
     }
 
+    onReader () {
+        console.log('isReader');
+    }
+
+    onNotes () {
+        console.log('isNotes');
+    }
+
     render () {
         return (
             <Menu>
                 <Dropdown item simple text='Меню' direction='left' options={this.state.options} />
+                {this.state.isLogin ? <Menu.Item onClick={() => {this.onNotes()}}>Note</Menu.Item> : null}
+                {this.state.isLogin ? <Menu.Item onClick={() => {this.onReader()}}>Read</Menu.Item> : null}
             </Menu>
         )
     }

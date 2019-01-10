@@ -2,6 +2,7 @@ import React from 'react';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
 import VersesList from '../Bible';
+import WeekNotes from "./WeekNotes";
 
 Auth.configure({
   Auth: {
@@ -37,7 +38,7 @@ class Notes extends React.Component{
   render() {
     return (
       <div>
-        WeekNotesList component
+        <WeekNotes/>
         <VersesList />
       </div>
     )
