@@ -1,110 +1,77 @@
 import React, { Component } from 'react';
 import DayNotesList from './DayNotesList'
-
-const notesList = {
-  "1": [
-    [
-      {
-        verse: {
-          bookTitle: "Бытие",
-          book: "1",
-          chapter: '1',
-          verse: '7'
-        },
-        userId: "user 1",
-        userDate: Date(),
-        text: 'Очень много букв "И" в главе, каждая глава начинается с этой буквы!',
-        tags: ['#букваИ', '#сотворение']
-      },
-    ],
-    [],
-    [
-      {
-        verse: {
-          bookTitle: "Бытие",
-          book: "1",
-          chapter: '1',
-          verse: '7'
-        },
-        userId: "user 1",
-        userDate: Date(),
-        text: 'Очень много букв "И" в главе, каждая глава начинается с этой буквы!',
-        tags: ['#букваИ', '#сотворение']
-      },
-      {
-        verse: {
-          bookTitle: "Бытие",
-          book: "1",
-          chapter: '1',
-          verse: '7'
-        },
-        userId: "user 1",
-        userDate: Date(),
-        text: 'Очень много букв "И" в главе, каждая глава начинается с этой буквы!',
-        tags: ['#букваИ', '#сотворение']
-      },
-    ],
-    [],
-    [
-      {
-        verse: {
-          bookTitle: "Бытие",
-          book: "1",
-          chapter: '1',
-          verse: '7'
-        },
-        userId: "user 1",
-        userDate: Date(),
-        text: 'Очень много букв "И" в главе, каждая глава начинается с этой буквы!',
-        tags: ['#букваИ', '#сотворение']
-      },
-    ],
-    [],
-  ]};
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 class WeekNotes extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      note: {},
-      title: 'Бытие 1-2',
-      notesSum: 0
+      ...this.props.notesReducer,
+      numWeek: 0,
+      firstDayOfWeek: 0,
+      lastDayOfWeek: 0,
     };
 
     this.createNotesList = this.createNotesList.bind(this);
+    this.setDate = this.setDate.bind(this);
+  }
+
+  componentWillMount () {
+    this.setDate();
+  }
+
+  setDate () {
+    let  date = moment().utc().dayOfYear(this.state.numDay).format("YYYY-MM-DD");
+    let week = moment(date).utc().weeks();
+    let month = moment(date).utc().month();
+    let firstDayOfWeek = moment(date).utc().day(1).format("DD");
+    let lastDayOfWeek = moment(date).utc().day(7).format("DD.MM.YYYY");
+
+    if (week === 0) {
+      firstDayOfWeek = moment().utc().startOf("year").format("DD");
+    }
+
+    this.setState({
+      numWeek: week,
+      firstDayOfWeek: firstDayOfWeek,
+      lastDayOfWeek: lastDayOfWeek
+    });
   }
 
   createNotesList() {
-    const numWeek = 1; //todo: count numWeek using numDay from url
-    const weekNotesList = notesList[numWeek];
+    const weekNotesList = this.state.notesList[this.state.numWeek];
 
-    return (
-      weekNotesList.map((dayNotesList, i) => {
-        return(
-          <div
-              key={i}
-              className={'containerDayNotes'}
-              onClick={() => this.setState({[i]: !this.state[i]})}
-          >
-            <div className={'dayNotes'}>
-              <div className={'numDay'}>{i + 1}</div>
-              <div className={'dayNoteData'}>
-                <div className={'excerpt'}>{this.state.title}</div>
-                <div className={'tagsList'}>{'[tags]'}</div>
-                <div className={'userList'}>{'[users]'}</div>
+    if (this.state.notesList[this.state.numWeek]) {
+      return (
+        weekNotesList.map((dayNotesList, i) => {
+          return(
+            <div
+                key={i}
+                className={'containerDayNotes'}
+                onClick={() => this.setState({[i]: !this.state[i]})}
+            >
+              <div className={'dayNotes'}>
+                <div className={'numDay'}>{i + 1}</div>
+                <div className={'dayNoteData'}>
+                  <div className={'excerpt'}>{this.state.readingPlan.title}</div>
+                  <div className={'tagsList'}>{'[tags]'}</div>
+                  <div className={'userList'}>{'[users]'}</div>
+                </div>
+                <div className={'quantityNotes'}>{dayNotesList.length}</div>
               </div>
-              <div className={'quantityNotes'}>{dayNotesList.length}</div>
+              {
+                this.state[i]
+                    ? <DayNotesList dayNotesList={dayNotesList} />
+                    : null
+              }
             </div>
-            {
-              this.state[i]
-                  ? <DayNotesList dayNotesList={dayNotesList} />
-                  : null
-            }
-          </div>
-        )
-      })
-    )
+          )
+        })
+      )
+    }
   }
 
 
@@ -113,15 +80,17 @@ class WeekNotes extends Component {
       <div className="weekNotes">
         <div className={'weekTitle'}>
           <div>
-            {'Week 1'}
+            {'Week'} {this.state.numWeek}
           </div>
           <div>
-            {'01-07.01.2019'}
+            {this.state.firstDayOfWeek} {'-'} {this.state.lastDayOfWeek}
           </div>
           <div>
-            {'Notes: '} {notesList['1'].reduce((accumulator, currentValue) => {
-             return accumulator + currentValue.length
-          }, 0)}
+            {'Notes: '} {this.state.notesList[this.state.numWeek] ?
+              this.state.notesList[this.state.numWeek].reduce((accumulator, currentValue) => {
+                return accumulator + currentValue.length
+              }, 0)
+              : 0}
           </div>
         </div>
         <hr/>
@@ -131,4 +100,16 @@ class WeekNotes extends Component {
   }
 }
 
-export default WeekNotes;
+function mapStateToProps(state) {
+  return {
+    notesReducer: state.notesReducer,
+  };
+}
+
+// function mapDispatchToProps(dispatch) {
+//   return bindActionCreators({
+//     toLoginAction,
+//   }, dispatch);
+// }
+
+export default connect(mapStateToProps, /mapDispatchToProps/)(WeekNotes);

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { toLoginAction } from "./toLoginAction";
+import { setMenuItemAction } from  "./setMenuItemAction"
 
 class NotesMenu extends React.Component{
     constructor(props) {
@@ -10,6 +11,7 @@ class NotesMenu extends React.Component{
 
         this.state = {
             ...this.props.notesReducer,
+            activeItem: '',
             options: [
                 { key: 1, text: 'Войти', value: 1, onClick: () => {this.onLogin()} },
                 { key: 2, text: 'О проекте', value: 2 },
@@ -17,8 +19,7 @@ class NotesMenu extends React.Component{
         };
 
         this.onLogin = this.onLogin.bind(this);
-        this.onNotes = this.onNotes.bind(this);
-        this.onReader = this.onReader.bind(this);
+        this.handleItemClick = this.handleItemClick.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -27,24 +28,24 @@ class NotesMenu extends React.Component{
         })
     }
 
+    handleItemClick (name) {
+        this.setState({
+            activeItem: name
+        });
+
+        this.props.setMenuItemAction(name);
+    }
+
     onLogin() {
         this.props.toLoginAction(true);
-    }
-
-    onReader () {
-        console.log('isReader');
-    }
-
-    onNotes () {
-        console.log('isNotes');
     }
 
     render () {
         return (
             <Menu>
                 <Dropdown item simple text='Меню' direction='left' options={this.state.options} />
-                {this.state.isLogin ? <Menu.Item onClick={() => {this.onNotes()}}>Note</Menu.Item> : null}
-                {this.state.isLogin ? <Menu.Item onClick={() => {this.onReader()}}>Read</Menu.Item> : null}
+                {this.state.isLogin ? <Menu.Item active={this.state.activeItem === 'isNote'} onClick={() => {this.handleItemClick('isNote')}}>Note</Menu.Item> : null}
+                {this.state.isLogin ? <Menu.Item active={this.state.activeItem === 'isRead'} onClick={() => {this.handleItemClick('isRead')}}>Read</Menu.Item> : null}
             </Menu>
         )
     }
@@ -59,6 +60,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         toLoginAction,
+        setMenuItemAction,
     }, dispatch);
 }
 

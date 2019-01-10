@@ -1,5 +1,6 @@
 import { FETCH_VERSES } from '../containers/Bible/fetchVersesAction';
 import { TO_LOGIN } from '../containers/Menu/toLoginAction';
+import {MENU_ITEM} from "../containers/Menu/setMenuItemAction";
 
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
   readingPlan: {},
   verses: [],
   isLogin: false,
+  menuItemName:'isNote',
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +23,12 @@ export default (state = initialState, action) => {
 
     case TO_LOGIN:
       state.isLogin = action.payload;
+
+      return { ...state };
+
+    case MENU_ITEM:
+
+      state.menuItemName = action.payload;
 
       return { ...state };
 
