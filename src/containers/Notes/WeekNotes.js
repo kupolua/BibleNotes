@@ -26,11 +26,10 @@ class WeekNotes extends Component {
   setDate () {
     let  date = moment().utc().dayOfYear(this.state.numDay).format("YYYY-MM-DD");
     let week = moment(date).utc().weeks();
-    let month = moment(date).utc().month();
     let firstDayOfWeek = moment(date).utc().day(1).format("DD");
     let lastDayOfWeek = moment(date).utc().day(7).format("DD.MM.YYYY");
 
-    if (week === 0) {
+    if (week === 1) {
       firstDayOfWeek = moment().utc().startOf("year").format("DD");
     }
 
