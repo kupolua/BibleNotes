@@ -3,7 +3,7 @@
   "homepage": "https://create-react-app-redux.now.sh",
   "scripts": {
     "deploy": "npm run build && rm build/static/js/*.map && rm build/static/css/*.map && aws s3 cp build/ s3://bible-notes/ --recursive",
-    "start": "react-scripts start",
+    "start": "react-scripts start - uses .env",
     "now-start": "serve -s ./build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
