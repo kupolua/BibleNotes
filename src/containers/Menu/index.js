@@ -46,6 +46,7 @@ class NotesMenu extends React.Component{
                 <Dropdown item simple text='Меню' direction='left' options={this.state.options} />
                 {this.state.isLogin ? <Menu.Item active={this.state.activeItem === 'isNote'} onClick={() => {this.handleItemClick('isNote')}}>Note</Menu.Item> : null}
                 {this.state.isLogin ? <Menu.Item active={this.state.activeItem === 'isRead'} onClick={() => {this.handleItemClick('isRead')}}>Read</Menu.Item> : null}
+                {this.state.isLogin ? <Menu.Item active={this.state.activeItem === 'presenter'} onClick={() => {this.handleItemClick('presenter')}}>Presenters</Menu.Item> : null}
             </Menu>
         )
     }

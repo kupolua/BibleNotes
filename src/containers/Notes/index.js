@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import { withAuthenticator } from 'aws-amplify-react';
 import { Auth } from 'aws-amplify';
 import VersesList from '../Bible';
 import WeekNotes from "./WeekNotes";
-import {toLoginAction} from "../Menu/toLoginAction";
-import {setMenuItemAction} from "../Menu/setMenuItemAction";
+import Calendar from  '../Calendar/Calendar'
+// import {toLoginAction} from "../Menu/toLoginAction";
+// import {setMenuItemAction} from "../Menu/setMenuItemAction";
 
 Auth.configure({
   Auth: {
@@ -44,7 +45,9 @@ class Notes extends React.Component{
 
     this.state ={
       ...this.props.notesReducer
-    }
+    };
+
+    this.switchMenuElement = this.switchMenuElement.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -53,10 +56,23 @@ class Notes extends React.Component{
     })
   }
 
+  switchMenuElement () {
+    switch (this.state.menuItemName) {
+      case 'isNote' :
+        return (<WeekNotes/>);
+      case 'isRead' :
+        return (<VersesList/>);
+      case 'presenter' :
+        return(<Calendar/>);
+      default:
+        return(<WeekNotes/>);
+    }
+  }
+
   render() {
     return (
       <div>
-        {this.state.menuItemName === "isNote" ? <WeekNotes/> : <VersesList />}
+        {this.switchMenuElement()}
       </div>
     )
   }
