@@ -1,10 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import Plan from './B2YPlan';
+import { putPresenterAction } from "./putPresenterAction";
+import { getPresenterAction } from "./getPresenterAction";
 
 class Calendar extends React.Component {
     constructor(props) {
         super(props);
+
+        this.props.getPresenterAction();
 
         this.state = {
             planList: this.createPlanList(),
@@ -14,6 +20,10 @@ class Calendar extends React.Component {
         };
 
         this.displayPlanList = this.displayPlanList.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        console.log('nextProps', nextProps.notesReducer.presenters);
     }
 
 
@@ -106,7 +116,7 @@ class Calendar extends React.Component {
                                             }
                                         }
                                     })}}/>
-                                    <button onClick={() => {console.log(this.state.weekPresenter)}}>Submit</button>
+                                    <button onClick={() => {this.props.putPresenterAction(this.state.weekPresenter)}}>Submit</button>
                                 </div>
                             </div> :
                             <div className={'calendarContainer mini'}
@@ -171,6 +181,18 @@ class Calendar extends React.Component {
 }
 
 
+function mapStateToProps(state) {
+    return {
+        notesReducer: state.notesReducer,
+    };
+}
 
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        putPresenterAction,
+        getPresenterAction,
+    }, dispatch);
+}
 
-export default Calendar;
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+// export default Calendar;
