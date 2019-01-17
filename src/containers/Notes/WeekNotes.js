@@ -24,20 +24,19 @@ class WeekNotes extends Component {
   }
 
   setDate () {
-    let  date = moment().utc().dayOfYear(this.state.numDay).format("YYYY.MM.DD");
-    let week = moment(date).utc().weeks();
-    let firstDayOfWeek = moment(date).utc().day(1).format("DD");
-    let lastDayOfWeek = moment(date).utc().day(7).format("DD.MM.YYYY");
+    let date = moment().dayOfYear(this.state.numDay);
 
-    if (week === 1) {
-      firstDayOfWeek = moment().utc().startOf("year").format("DD");
+    if (date.format('W') === 1) {
+      this.setState({
+        firstDayOfWeek: moment().startOf("year").format("DD"),
+      });
+    } else {
+      this.setState({
+        numWeek: date.format('W'),
+        firstDayOfWeek: date.day(1).format('DD'),
+        lastDayOfWeek: date.day(7).format('DD.MM.YYYY')
+      });
     }
-
-    this.setState({
-      numWeek: week,
-      firstDayOfWeek: firstDayOfWeek,
-      lastDayOfWeek: lastDayOfWeek
-    });
   }
 
   createNotesList() {

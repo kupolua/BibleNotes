@@ -73,14 +73,16 @@ class Calendar extends React.Component {
                                                 ...this.state.weekPresenter, weekNum: weekId+1
                                             }})}}
                                     > {weekId + 1} </div>
-                                    {dayList.map((day, dayId) => {
-                                        return (
-                                            <div key={dayId} className={'day'}>
-                                                <div className={'dayDate'}> {day.date} </div>
-                                                <div className={'dayTitle'}> {day.title} </div>
-                                            </div>
-                                        )
-                                    })}
+                                    <div className={'dayContainer'}>
+                                        {dayList.map((day, dayId) => {
+                                            return (
+                                                <div key={dayId} className={'day'}>
+                                                    <div className={'dayDate'}> {day.date} </div>
+                                                    <div className={'dayTitle'}> {day.title} </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                                 <div className={'calendarForm'}>
                                     <input placeholder={'Имя Фамилия Отчество'} onChange={(e) => {this.setState({
@@ -107,14 +109,19 @@ class Calendar extends React.Component {
                                     <button onClick={() => {console.log(this.state.weekPresenter)}}>Submit</button>
                                 </div>
                             </div> :
-                            <div className={'calendarContainer mini'} key={'calendarContainer' + weekId} onClick={() => {this.setState({
-                                weekPresenter: {
-                                    ...this.state.weekPresenter, weekNum:
-                                        weekId+1,
-                                    weekDateReference: this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].date,
-                                    weekBibleReference: this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].title,
-                                }
-                            })}}>
+                            <div className={'calendarContainer mini'}
+                                 key={'calendarContainer' + weekId}
+                                 onClick={() => {
+                                     this.setState({
+                                        weekPresenter: {
+                                            ...this.state.weekPresenter, weekNum:
+                                                weekId+1,
+                                            weekDateReference: this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].date,
+                                            weekBibleReference: this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].title,
+                                        }
+                                     })
+                                 }}
+                            >
                                 <div className={'week'} onClick={() => {
                                     this.state.weekPresenter.weekNum === weekId+1 ?
                                         this.setState({

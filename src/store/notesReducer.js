@@ -9,7 +9,7 @@ const initialState = {
   readingPlan: {},
   verses: [],
   isLogin: false,
-  menuItemName:'isNote',
+  menuItemName:'',
 };
 
 export default (state = initialState, action) => {
