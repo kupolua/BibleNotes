@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import DayNotesList from './DayNotesList'
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+// import { bindActionCreators } from 'redux';
 import moment from 'moment';
 
 class WeekNotes extends Component {
@@ -24,7 +24,7 @@ class WeekNotes extends Component {
   }
 
   setDate () {
-    let  date = moment().utc().dayOfYear(this.state.numDay).format("YYYY-MM-DD");
+    let  date = moment().utc().dayOfYear(this.state.numDay).format("YYYY.MM.DD");
     let week = moment(date).utc().weeks();
     let firstDayOfWeek = moment(date).utc().day(1).format("DD");
     let lastDayOfWeek = moment(date).utc().day(7).format("DD.MM.YYYY");
@@ -79,20 +79,19 @@ class WeekNotes extends Component {
       <div className="weekNotes">
         <div className={'weekTitle'}>
           <div>
-            {'Week'} {this.state.numWeek}
+            {this.state.numWeek}
           </div>
           <div>
             {this.state.firstDayOfWeek} {'-'} {this.state.lastDayOfWeek}
           </div>
           <div>
-            {'Notes: '} {this.state.notesList[this.state.numWeek] ?
+            {'Заметок: '} {this.state.notesList[this.state.numWeek] ?
               this.state.notesList[this.state.numWeek].reduce((accumulator, currentValue) => {
                 return accumulator + currentValue.length
               }, 0)
               : 0}
           </div>
         </div>
-        <hr/>
         {this.createNotesList()}
       </div>
     );

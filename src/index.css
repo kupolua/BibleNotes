@@ -1,122 +1,201 @@
 html {
-  font-size: 100%;
+    font-size: 100%;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
     sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-}
+    font-size: 1rem;
+    line-height: 1.5;
+    }
 
 button:disabled {
-  opacity: 0.5;
+    opacity: 0.5;
 }
+
+hr {
+    width: 100%;
+    background-color: #aab1b9;
+    height: 1px;
+}
+
+input {
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
+/*Контейнер заметок ---->*/
 
 .weekNotes {
-  border-radius: 20px;
-  border: 1px solid #675432;
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
+    border-radius: 20px;
+    border: 1px solid #675432;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
 }
 
+/*Титульный контейнер --->*/
 .weekTitle {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
-
-.containerDayNotes {
-  margin-bottom: 10px;
-  padding: 5px;
-  border-radius: 20px;
-  border: 1px solid #675432;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5px;
+    margin-bottom: 20px;
 }
 
 /*Контейнер дня и его наполнение*/
-
-/*Оформление контейнера*/
-.dayNotes {
-  display: flex;
-  flex-wrap: wrap;
+.containerDayNotes {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    border: 1px solid #675432;
 }
 
-/*Наполнение коейнера дня*/
+/*Титульний контейнер дня*/
+.dayNotes {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/*Наполнение титульного контейнера дня*/
 .numDay {
-  width: 10%;
-  margin-left: 10px;
-  margin-top: 5px;
-  text-align: center;
-  font-weight: bold;
+    width: 10%;
+    margin-left: 10px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
 }
 
 .dayNoteData {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .excerpt {
-  width: 100%;
+    width: 100%;
 }
 
 .tagsList {
-  margin-right: 15px;
-}
-
-.userList {
-
+    margin-right: 15px;
 }
 
 .quantityNotes {
-  margin-left: auto;
-  margin-right: 10px;
-  margin-top: 5px;
-  text-align: center;
-  font-weight: bold;
-  width: 30px;
-  height: 30px;
-  display:block;
-  border: 2px solid #675432;
-  border-radius:50px;
+    margin-left: auto;
+    margin-right: 10px;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: bold;
+    width: 30px;
+    height: 30px;
+    display:block;
+    border: 2px solid #675432;
+    border-radius:50px;
 }
 
-/*Контейнер заметок и его наполнение*/
+/*<---*/
 
-/*Оформление контейнера*/
+/*Контейнер заметок и его наполнение -->*/
 .containerNotes {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
 }
 
-/*Контейнер с заметкой*/
+/*Текст*/
 .note {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 10px;
-  padding: 5px;
-  border-radius: 20px;
-  border: 1px solid #675432;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    border: 1px solid #675432;
 }
 
-/*Наполнение контейнера с заметкой*/
-
+/*Информация по заметке*/
 .noteData {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 15px;
 }
 
 .noteTitle {
-  width: 100%;
-  margin-bottom: 5px;
+    width: 100%;
+    margin-bottom: 5px;
 }
 
 .tags {
-  margin-right: 15px;
+    margin-right: 15px;
 }
+
+/*<--*/
+
+/*<----*/
+
+/*Контейнер Плана @-@->*/
+/*.calendarContainer {*/
+    /*display: flex;*/
+    /*flex-direction: row;*/
+    /*border-radius: 20px;*/
+    /*border: 1px solid rgba(9, 8, 32, 0.51);*/
+    /*margin: 10px;*/
+    /*padding: 5px;*/
+/*}*/
+
+.calendarContainer {
+    display: flex;
+    flex-direction: row;
+    border-radius: 20px;
+    border: 1px solid rgba(9, 8, 32, 0.51);
+    margin: 10px;
+    padding: 15px;
+}
+
+/*Список планов на неделю*/
+.planWeekList {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 50%;
+}
+
+/*Контейнер формы*/
+.calendarForm {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.week {
+    margin-left: 2%;
+}
+
+.day {
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: auto;
+}
+
+.dayDate {
+    margin-right: 20px;
+    text-align: right;
+}
+
+.dayTitle {
+    margin-right: auto;
+    text-align: right;
+}
+
+.weekDateReference {
+    margin-left: 5%;
+    width: 100px;
+}
+
+.weekBibleReference {
+    margin-left: auto;
+    margin-right: auto;
+}
+/*<-@-@*/
