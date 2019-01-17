@@ -79,20 +79,19 @@ class WeekNotes extends Component {
       <div className="weekNotes">
         <div className={'weekTitle'}>
           <div>
-            {'Week'} {this.state.numWeek}
+            {this.state.numWeek}
           </div>
           <div>
             {this.state.firstDayOfWeek} {'-'} {this.state.lastDayOfWeek}
           </div>
           <div>
-            {'Notes: '} {this.state.notesList[this.state.numWeek] ?
+            {'Заметок: '} {this.state.notesList[this.state.numWeek] ?
               this.state.notesList[this.state.numWeek].reduce((accumulator, currentValue) => {
                 return accumulator + currentValue.length
               }, 0)
               : 0}
           </div>
         </div>
-        <hr/>
         {this.createNotesList()}
       </div>
     );

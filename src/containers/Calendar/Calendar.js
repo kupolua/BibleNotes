@@ -25,16 +25,30 @@ class Calendar extends React.Component {
             let date = moment().utc().dayOfYear(dayPlan.numday);
             let week = date.format('W');
 
-            if (weekList[week]) {
-                weekList[week][weekList[week].length] = {
-                    date: date.format('DD.MM'),
-                    title: dayPlan.title
+            if(moment(date).isoWeekYear() === 2020){
+                if (weekList[53]) {
+                    weekList[53][weekList[53].length] = {
+                        date: date.format('DD.MM'),
+                        title: dayPlan.title
+                    }
+                } else {
+                    weekList[53] = [{
+                        date: date.format('DD.MM'),
+                        title: dayPlan.title
+                    }]
                 }
             } else {
-                weekList[week] = [{
-                    date: date.format('DD.MM'),
-                    title: dayPlan.title
-                }]
+                if (weekList[week]) {
+                    weekList[week][weekList[week].length] = {
+                        date: date.format('DD.MM'),
+                        title: dayPlan.title
+                    }
+                } else {
+                    weekList[week] = [{
+                        date: date.format('DD.MM'),
+                        title: dayPlan.title
+                    }]
+                }
             }
         });
 
@@ -121,14 +135,14 @@ class Calendar extends React.Component {
                                 <div className={'weekDateReference'}>
                                 {
                                     this.state.planList[weekId+1][0] ?
-                                    this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][6].date :
+                                    this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].date :
                                     null
                                 }
                                 </div>
                                 <div className={'weekBibleReference'}>
                                     {
                                         this.state.planList[weekId+1][0] ?
-                                            this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][6].title :
+                                            this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].title :
                                             null
                                     }
                                 </div>
