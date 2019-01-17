@@ -111,8 +111,8 @@ class Calendar extends React.Component {
                                 weekPresenter: {
                                     ...this.state.weekPresenter, weekNum:
                                         weekId+1,
-                                    weekDateReference: this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][6].date,
-                                    weekBibleReference: this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][6].title,
+                                    weekDateReference: this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].date,
+                                    weekBibleReference: this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].title,
                                 }
                             })}}>
                                 <div className={'week'} onClick={() => {
