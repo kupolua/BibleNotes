@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-// import { Link } from 'react-router-dom';
 import { fetchVersesAction } from '../Bible/fetchVersesAction'; //todo: for develop mode -dev
 import NotesMenu from '../Menu';
 import VersesList from '../Bible';

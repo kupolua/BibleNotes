@@ -35,9 +35,9 @@ Auth.configure({
   }
 });
 
-if(process.env.REACT_APP_MODE === 'autologin') {
-  Auth.signIn(process.env.REACT_APP_LOGIN, process.env.REACT_APP_PASSWD);
-}
+// if(process.env.REACT_APP_MODE === 'autologin') {
+//   Auth.signIn(process.env.REACT_APP_LOGIN, process.env.REACT_APP_PASSWD);
+// }
 
 class Notes extends React.Component{
   constructor(props) {
@@ -86,5 +86,5 @@ function mapStateToProps(state) {
 
 // export default App;
 // export default container;
-// export default connect(mapStateToProps)(withAuthenticator(Notes));
-export default connect(mapStateToProps)(process.env.REACT_APP_MODE === 'autologin' ? Notes : withAuthenticator(Notes));
+export default connect(mapStateToProps)(withAuthenticator(Notes));
+// export default connect(mapStateToProps)(process.env.REACT_APP_MODE === 'autologin' ? Notes : withAuthenticator(Notes));
