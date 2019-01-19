@@ -24,7 +24,7 @@ class Calendar extends React.Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log('nextProps', nextProps.notesReducer.presenters);
+        // console.log('nextProps', nextProps.notesReducer.presenters);
         this.setState({
             presenters: nextProps.notesReducer.presenters,
         });
@@ -91,6 +91,7 @@ class Calendar extends React.Component {
                                     > {weekId} </div>
                                     <div key={'dayId' + weekId} className={'dayContainer'}>
                                         {dayList.map((day, dayId) => {
+                                            console.log(this.state.presenters[weekId]);
                                             return (
                                                 <div key={dayId} className={'day'}>
                                                     <div className={'dayDate'}> {day.date} </div>
@@ -243,19 +244,28 @@ class Calendar extends React.Component {
                                     });
                                 }}
                                 > {weekId} </div>
-                                <div className={'weekDateReference'}>
-                                    {
-                                        this.state.planList[weekId][0] ?
-                                            this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date :
-                                            null
-                                    }
-                                </div>
-                                <div className={'weekBibleReference'}>
-                                    {
-                                        this.state.planList[weekId][0] ?
-                                            this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title :
-                                            null
-                                    }
+                                <div style={{flexDirection: 'column'}}>
+                                    <div className={'weekDateReference'}>
+                                        {
+                                            this.state.planList[weekId][0] ?
+                                                this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date :
+                                                null
+                                        }
+                                    </div>
+                                    <div className={'weekBibleReference'}>
+                                        {
+                                            this.state.planList[weekId][0] ?
+                                                this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title :
+                                                null
+                                        }
+                                    </div>
+                                    <div className={'weekPresenterReference'}>
+                                        {
+                                            this.state.presenters[weekId]
+                                                ? this.state.presenters[weekId].presenter.name
+                                                : null
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         }
