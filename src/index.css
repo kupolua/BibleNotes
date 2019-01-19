@@ -45,6 +45,16 @@ input {
     margin-bottom: 20px;
 }
 
+.NotesTitleNumWeek {
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(9, 8, 32, 0.51);
+    background-color: #d6dde5;
+    border-radius:50px;
+    text-align: center;;
+    font-weight: bold;
+}
+
 /*Контейнер дня и его наполнение*/
 .containerDayNotes {
     margin-bottom: 10px;
@@ -178,9 +188,14 @@ input {
     font-weight: bold;
 }
 
+.dayContainer {
+    display: flex;
+    flex-direction: column;
+}
+
 .day {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .dayContainer {

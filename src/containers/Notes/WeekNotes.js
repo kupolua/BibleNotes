@@ -77,7 +77,7 @@ class WeekNotes extends Component {
     return (
       <div className="weekNotes">
         <div className={'weekTitle'}>
-          <div>
+          <div className={'NotesTitleNumWeek'}>
             {this.state.numWeek}
           </div>
           <div>
