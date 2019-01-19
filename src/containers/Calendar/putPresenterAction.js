@@ -5,7 +5,7 @@ export const PUT_PRESENTER = 'PUT_PRESENTER';
 
 export function putPresenterAction (presenter) {
     const AuthToken = Auth.user.signInUserSession.idToken.jwtToken;
-    console.log(presenter);
+    console.log('presenter', presenter,);
     let response = new Promise(function(resolve, reject) {
         resolve(axios.put(
             'https://hyqpo1v4pf.execute-api.us-east-1.amazonaws.com/putPresenter',
@@ -19,7 +19,7 @@ export function putPresenterAction (presenter) {
             console.log('result', result);
             dispatch({
                 type: PUT_PRESENTER,
-                payload: 'OK'
+                payload: {presenters: JSON.parse(result.data.presenters)}
             });
         });
     };

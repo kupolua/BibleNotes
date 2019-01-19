@@ -3,7 +3,7 @@ import { Auth } from 'aws-amplify';
 
 export const GET_PRESENTER = 'GET_PRESENTER';
 
-export function getPresenterAction () {
+export function getPresentersAction () {
     const AuthToken = Auth.user.signInUserSession.idToken.jwtToken;
     let response = new Promise(function(resolve, reject) {
         resolve(axios.get(

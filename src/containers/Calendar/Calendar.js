@@ -4,19 +4,20 @@ import { bindActionCreators } from 'redux';
 import moment from 'moment';
 import Plan from './B2YPlan';
 import { putPresenterAction } from "./putPresenterAction";
-import { getPresenterAction } from "./getPresenterAction";
+import { getPresentersAction } from "./getPresentersAction";
 
 class Calendar extends React.Component {
     constructor(props) {
         super(props);
 
-        this.props.getPresenterAction();
+        this.props.getPresentersAction();
 
         this.state = {
             planList: this.createPlanList(),
             weekPresenter: {
                 weekNum: null,
             },
+            presenters: this.props.notesReducer.presenters,
         };
 
         this.displayPlanList = this.displayPlanList.bind(this);
@@ -24,6 +25,9 @@ class Calendar extends React.Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         console.log('nextProps', nextProps.notesReducer.presenters);
+        this.setState({
+            presenters: nextProps.notesReducer.presenters,
+        });
     }
 
 
@@ -67,73 +71,170 @@ class Calendar extends React.Component {
 
     displayPlanList () {
         return (
-            Object.values(this.state.planList).map((dayList, weekId) => {
+            Object.values(this.state.planList).map((dayList, weekNum) => {
+                let weekId = (weekNum+1).toString();
+
                 return (
                     <div key={weekId}>
-                        {this.state.weekPresenter.weekNum === weekId+1 ?
+                        {this.state.weekPresenter.weekNum === weekId ?
                             <div className={'calendarContainer'} key={'calendarContainer' + weekId}>
                                 <div className={'planWeekList'} key={'planWeekList' + weekId}>
                                     <div className={'week'} onClick={() => {
-                                        this.state.weekPresenter.weekNum === weekId+1 ?
-                                        this.setState({
-                                            weekPresenter: {
-                                               ...this.state.weekPresenter, weekNum: null
-                                            }}):
-                                        this.setState({weekPresenter: {
-                                                ...this.state.weekPresenter, weekNum: weekId+1
-                                            }})}}
-                                    > {weekId + 1} </div>
-                                    {dayList.map((day, dayId) => {
-                                        return (
-                                            <div key={dayId} className={'day'}>
-                                                <div className={'dayDate'}> {day.date} </div>
-                                                <div className={'dayTitle'}> {day.title} </div>
-                                            </div>
-                                        )
-                                    })}
+                                        this.state.weekPresenter.weekNum === weekId ?
+                                            this.setState({
+                                                weekPresenter: {
+                                                    ...this.state.weekPresenter, weekNum: null
+                                                }}):
+                                            this.setState({weekPresenter: {
+                                                    ...this.state.weekPresenter, weekNum: weekId
+                                                }})}}
+                                    > {weekId} </div>
+                                    <div key={'dayId' + weekId} className={'dayContainer'}>
+                                        {dayList.map((day, dayId) => {
+                                            return (
+                                                <div key={dayId} className={'day'}>
+                                                    <div className={'dayDate'}> {day.date} </div>
+                                                    <div className={'dayTitle'}> {day.title} </div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
                                 </div>
                                 <div className={'calendarForm'}>
-                                    <input placeholder={'Имя Фамилия Отчество'} onChange={(e) => {this.setState({
-                                        weekPresenter: {
-                                            ...this.state.weekPresenter, presenter: {
-                                                ...this.state.weekPresenter.presenter, name: e.target.value
-                                            }
+                                    <input
+                                        value={
+                                            this.state.presenters[weekId]
+                                                ? this.state.presenters[weekId].presenter.name
+                                                : undefined
                                         }
-                                    })}}/>
-                                    <input placeholder={'+380'} onChange={(e) => {this.setState({
-                                        weekPresenter: {
-                                            ...this.state.weekPresenter, presenter: {
-                                                ...this.state.weekPresenter.presenter, phoneNum: e.target.value
+                                        placeholder={'Имя Фамилия Отчество'}
+                                        onChange={(e) => {
+                                            if (this.state.presenters[weekId]) {
+                                                this.setState({
+                                                    ...this.state,
+                                                    presenters: {
+                                                        ...this.state.presenters,
+                                                        [weekId]: {
+                                                            ...this.state.presenters[weekId],
+                                                            presenter: {
+                                                                ...this.state.presenters[weekId].presenter,
+                                                                name: e.target.value
+                                                            }
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                this.props.putPresenterAction(
+                                                    {
+                                                        presenter: {
+                                                            name: e.target.value,
+                                                            phoneNum: '',
+                                                            email: '',
+                                                        },
+                                                        weekDateReference: this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date,
+                                                        weekBibleReference: this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title,
+                                                        weekNum: +weekId,
+                                                    }
+                                                );
                                             }
+                                        }}
+                                    />
+                                    <input
+                                        value={
+                                            this.state.presenters[weekId] ?
+                                                this.state.presenters[weekId].presenter.phoneNum:
+                                                undefined
                                         }
-                                    })}}/>
-                                    <input placeholder={'email'} onChange={(e) => {this.setState({
-                                        weekPresenter: {
-                                            ...this.state.weekPresenter, presenter: {
-                                                ...this.state.weekPresenter.presenter, email: e.target.value
+                                        placeholder={'+380'}
+                                        onChange={(e) => {
+                                            if (this.state.presenters[weekId]) {
+                                                this.setState({
+                                                    ...this.state,
+                                                    presenters: {
+                                                        ...this.state.presenters,
+                                                        [weekId]: {
+                                                            ...this.state.presenters[weekId],
+                                                            presenter: {
+                                                                ...this.state.presenters[weekId].presenter,
+                                                                phoneNum: e.target.value
+                                                            }
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                this.props.putPresenterAction(
+                                                    {
+                                                        presenter: {
+                                                            name: '',
+                                                            phoneNum: e.target.value,
+                                                            email: '',
+                                                        },
+                                                        weekDateReference: this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date,
+                                                        weekBibleReference: this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title,
+                                                        weekNum: +weekId,
+                                                    }
+                                                );
                                             }
+                                        }}
+                                    />
+                                    <input
+                                        value={
+                                            this.state.presenters[weekId] ?
+                                                this.state.presenters[weekId].presenter.email:
+                                                undefined
                                         }
-                                    })}}/>
-                                    <button onClick={() => {this.props.putPresenterAction(this.state.weekPresenter)}}>Submit</button>
+                                        placeholder={'email'}
+                                        onChange={(e) => {
+                                            if (this.state.presenters[weekId]) {
+                                                this.setState({
+                                                    ...this.state,
+                                                    presenters: {
+                                                        ...this.state.presenters,
+                                                        [weekId]: {
+                                                            ...this.state.presenters[weekId],
+                                                            presenter: {
+                                                                ...this.state.presenters[weekId].presenter,
+                                                                email: e.target.value
+                                                            }
+                                                        }
+                                                    }
+                                                })
+                                            } else {
+                                                this.props.putPresenterAction(
+                                                    {
+                                                        presenter: {
+                                                            name: '',
+                                                            phoneNum: '',
+                                                            email: e.target.value,
+                                                        },
+                                                        weekDateReference: this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date,
+                                                        weekBibleReference: this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title,
+                                                        weekNum: +weekId,
+                                                    }
+                                                );
+                                            }
+                                        }}
+                                    />
+                                    <button onClick={() => {this.props.putPresenterAction(this.state.presenters[weekId])}}>Submit</button>
                                 </div>
                             </div> :
                             <div className={'calendarContainer mini'} key={'calendarContainer' + weekId} onClick={() => {this.setState({
                                 weekPresenter: {
                                     ...this.state.weekPresenter, weekNum:
-                                        weekId+1,
-                                    weekDateReference: this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].date,
-                                    weekBibleReference: this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].title,
+                                    weekId,
+                                    weekDateReference: this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date,
+                                    weekBibleReference: this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title,
                                 }
                             })}}>
                                 <div className={'week'} onClick={() => {
-                                    this.state.weekPresenter.weekNum === weekId+1 ?
+                                    this.state.weekPresenter.weekNum === weekId ?
                                         this.setState({
                                             weekPresenter: {
                                                 ...this.state.weekPresenter, weekNum: null
-                                        }}):
+                                            }}):
                                         this.setState({weekPresenter: {
-                                                ...this.state.weekPresenter, weekNum: weekId+1
-                                        }});
+                                                ...this.state.weekPresenter, weekNum: weekId
+                                            }});
 
                                     this.setState({
                                         weekPresenter: {
@@ -141,18 +242,18 @@ class Calendar extends React.Component {
                                         }
                                     });
                                 }}
-                                > {weekId + 1} </div>
+                                > {weekId} </div>
                                 <div className={'weekDateReference'}>
-                                {
-                                    this.state.planList[weekId+1][0] ?
-                                    this.state.planList[weekId+1][0].date + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].date :
-                                    null
-                                }
+                                    {
+                                        this.state.planList[weekId][0] ?
+                                            this.state.planList[weekId][0].date + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].date :
+                                            null
+                                    }
                                 </div>
                                 <div className={'weekBibleReference'}>
                                     {
-                                        this.state.planList[weekId+1][0] ?
-                                            this.state.planList[weekId+1][0].title + ' - ' + this.state.planList[weekId+1][this.state.planList[weekId+1].length -1].title :
+                                        this.state.planList[weekId][0] ?
+                                            this.state.planList[weekId][0].title + ' - ' + this.state.planList[weekId][this.state.planList[weekId].length -1].title :
                                             null
                                     }
                                 </div>
@@ -165,6 +266,13 @@ class Calendar extends React.Component {
     }
 
     render () {
+        if (Object.keys(this.state.presenters).length < 1) {
+            return (
+                <div>
+                    {'Loading...'}
+                </div>
+            )
+        }
         return (
             <div>
                 {this.displayPlanList()}
@@ -183,7 +291,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         putPresenterAction,
-        getPresenterAction,
+        getPresentersAction,
     }, dispatch);
 }
 

@@ -2,7 +2,7 @@ import { FETCH_VERSES } from '../containers/Bible/fetchVersesAction';
 import { TO_LOGIN } from '../containers/Menu/toLoginAction';
 import { MENU_ITEM } from "../containers/Menu/setMenuItemAction";
 import { PUT_PRESENTER } from "../containers/Calendar/putPresenterAction";
-import { GET_PRESENTER } from "../containers/Calendar/getPresenterAction";
+import { GET_PRESENTER } from "../containers/Calendar/getPresentersAction";
 
 const initialState = {
   numDay: null,
@@ -11,7 +11,7 @@ const initialState = {
   verses: [],
   presenters: {},
   isLogin: false,
-  menuItemName:'isNote',
+  menuItemName:'',
 };
 
 export default (state = initialState, action) => {
@@ -35,8 +35,7 @@ export default (state = initialState, action) => {
       return { ...state };
 
     case PUT_PRESENTER:
-      console.log(action.payload); //todo: create error page if presenter store wrong
-      // state.menuItemName = action.payload;
+      state.presenters = action.payload.presenters;
 
       return { ...state };
 
