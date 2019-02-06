@@ -10,7 +10,14 @@ class VersesList extends React.Component{
 
     this.state = {
       ...this.props.notesReducer,
-      showModal: false
+      showModal: false,
+      verseAdress: {
+        name: '',
+        book: '',
+        chapter: '',
+        verseId: '',
+        text: ''
+      }
     }
     
     this.hideModal = this.hideModal.bind(this);
@@ -21,11 +28,11 @@ class VersesList extends React.Component{
 
   showModal(chapter, verseId, text) {
     if (this.state.isLogin) {
-      const {title, book} = this.state.readingPlan;
+      const {name, book} = this.state.readingPlan;
       this.setState({
         showModal: true,
         verseAdress: {
-          title,
+          name,
           book,
           chapter,
           verseId,
@@ -37,11 +44,10 @@ class VersesList extends React.Component{
   }
 
   hideModal() {
-    console.log("close");
+    //console.log("close");
+    // console.log(this.state.readingPlan);
+    // console.log(this.state.verses);
     this.setState({ showModal: false })
-    // this.setState({
-    //   showModal: false
-    // })
   }
 
   render() {
