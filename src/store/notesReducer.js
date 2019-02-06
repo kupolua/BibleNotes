@@ -3,6 +3,7 @@ import { TO_LOGIN } from '../containers/Menu/toLoginAction';
 import { MENU_ITEM } from "../containers/Menu/setMenuItemAction";
 import { PUT_PRESENTER } from "../containers/Calendar/putPresenterAction";
 import { GET_PRESENTER } from "../containers/Calendar/getPresentersAction";
+import { THE_NOTE } from '../containers/Bible/setNoteAction';
 
 const initialState = {
   numDay: null,
@@ -12,6 +13,7 @@ const initialState = {
   presenters: {},
   isLogin: false,
   menuItemName:'',
+  note: {},
 };
 
 export default (state = initialState, action) => {
@@ -41,6 +43,11 @@ export default (state = initialState, action) => {
 
     case GET_PRESENTER:
       state.presenters = action.payload.presenters;
+
+      return { ...state };
+
+    case THE_NOTE:
+      state.note = action.payload;
 
       return { ...state };
 
